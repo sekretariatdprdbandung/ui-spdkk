@@ -1,0 +1,13 @@
+{
+  "short_name": "SPDKK",
+  "name": "Sistem Pengolahan Data Kunjungan Kerja",
+  "icons": {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
