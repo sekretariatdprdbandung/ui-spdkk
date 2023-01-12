@@ -13,12 +13,12 @@ export default function AdminLayout() {
 
   return (
     <Grid container>
-      <Grid item xs={3}>
+      <Grid item xs={3} sm={4} md={3}>
         <Sidebar />
       </Grid>
       {/* content */}
-      <Grid item xs={9}>
-        <Box sx={{ height: '100vh', backgroundColor: theme.palette.background.paper, p: 3, boxSizing: 'border-box' }}>
+      <Grid item xs={9} sm={8} md={9}>
+        <Box sx={{ height: '100vh', backgroundColor: theme.palette.text.paper, p: 3, boxSizing: 'border-box' }}>
           <Outlet />
         </Box>
       </Grid>

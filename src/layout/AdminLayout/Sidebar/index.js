@@ -20,18 +20,15 @@ export default function Sidebar() {
   let navigate = useNavigate();
 
   return (
-    <Box sx={{ height: '100vh', backgroundColor: theme.palette.primary.dark }}>
+    <Box sx={{ height: '100vh', backgroundColor: theme.palette.primary.main }}>
       <Stack p={2} spacing={2}>
         <Stack spacing={2} justifyContent="center" alignItems="center">
           <Avatar alt="Remy Sharp" src={Logo} sx={{ width: { lg: '6rem' }, height: 'auto', cursor: 'pointer' }} onClick={() => navigate('/')} />
           <Stack justifyContent="center" alignItems="center">
-            <Typography
-              variant="h5"
-              sx={{ fontSize: '1.5rem', fontWeight: '400', color: theme.palette.background.paper, textTransform: 'uppercase' }}
-            >
+            <Typography variant="h5" sx={{ fontSize: '1.5rem', fontWeight: '400', color: theme.palette.text.paper, textTransform: 'uppercase' }}>
               Teresa
             </Typography>
-            <Typography variant="h6" sx={{ fontSize: '1rem', fontWeight: '400', color: theme.palette.background.paper, textTransform: 'uppercase' }}>
+            <Typography variant="h6" sx={{ fontSize: '1rem', fontWeight: '400', color: theme.palette.text.paper, textTransform: 'uppercase' }}>
               Admin
             </Typography>
           </Stack>
@@ -39,11 +36,26 @@ export default function Sidebar() {
           <Box sx={{ width: '100%' }}>
             <List sx={{ width: '100%' }}>
               {AdminMenu.map((item) => (
-                <ListItemButton onClick={() => navigate(item.url)}>
-                  <ListItemIcon sx={{ color: theme.palette.background.paper, width: '1px', pl: 0.25 }}>
-                    <item.icon size="35%" />
+                <ListItemButton
+                  onClick={() => {
+                    navigate(item.url);
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      color: theme.palette.text.paper,
+                      px: 1,
+                    }}
+                  >
+                    <item.icon />
                   </ListItemIcon>
-                  <ListItemText primary={item.title} sx={{ color: theme.palette.background.paper }} />
+                  <ListItemText
+                    primary={
+                      <Typography variant="menu" pl={2}>
+                        {item.title}
+                      </Typography>
+                    }
+                  />
                 </ListItemButton>
               ))}
             </List>
@@ -65,10 +77,16 @@ export default function Sidebar() {
                 })
               }
             >
-              <ListItemIcon sx={{ color: theme.palette.background.paper, p: 0 }}>
-                <DeleteIcon size="35%" />
+              <ListItemIcon sx={{ color: theme.palette.text.paper, p: 0 }}>
+                <DeleteIcon />
               </ListItemIcon>
-              <ListItemText primary="Logout" sx={{ color: theme.palette.background.paper }} />
+              <ListItemText
+                primary={
+                  <Typography variant="menu" pl={2}>
+                    Logout
+                  </Typography>
+                }
+              />
             </ListItemButton>
           </Box>
         </Stack>

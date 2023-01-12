@@ -4,13 +4,24 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline, StyledEngineProvider } from '@mui/material';
+
+// default theme
+import themes from 'themes';
+
 import 'sweetalert2/src/sweetalert2.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={themes()}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
