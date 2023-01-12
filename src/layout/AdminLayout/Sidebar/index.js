@@ -23,7 +23,7 @@ export default function Sidebar() {
     <Box sx={{ height: '100vh', backgroundColor: theme.palette.primary.dark }}>
       <Stack p={2} spacing={2}>
         <Stack spacing={2} justifyContent="center" alignItems="center">
-          <Avatar alt="Remy Sharp" src={Logo} sx={{ width: { lg: '6rem' }, height: 'auto' }} />
+          <Avatar alt="Remy Sharp" src={Logo} sx={{ width: { lg: '6rem' }, height: 'auto', cursor: 'pointer' }} onClick={() => navigate('/')} />
           <Stack justifyContent="center" alignItems="center">
             <Typography
               variant="h5"
