@@ -4,7 +4,14 @@ import { createTheme } from '@mui/material/styles';
 import colors from 'assets/scss/_themes-vars.module.scss';
 
 // project imports
+import componentStyleOverrides from './compStyleOverride';
 import themePalette from './palette';
+import themeTypography from './typography';
+
+/**
+ * Represent theme style and structure as per Material-UI
+ * @param {JsonObject} customization customization parameter object
+ */
 
 export const theme = () => {
   const color = colors;
@@ -13,14 +20,14 @@ export const theme = () => {
     colors: color,
     heading: color.primaryMain,
     paper: color.paper,
-    backgroundDefault: color.background,
+    backgroundDefault: color.paper,
     background: color.primaryLight,
     mainTextPrimary: color.primaryMain,
-    darkTextPrimary: color.grey700,
-    darkTextSecondary: color.grey500,
+    darkTextPrimary: color.darkTextPrimary,
+    darkTextSecondary: color.gdarkTextSecondary,
     textDark: color.grey900,
     menuSelected: color.primaryDark,
-    menuSelectedBack: color.primaryLight,
+    menuSelectedBack: color.paper,
     divider: color.grey200,
   };
 
@@ -36,9 +43,11 @@ export const theme = () => {
         },
       },
     },
+    typography: themeTypography(themeOption),
   };
 
   const themes = createTheme(themeOptions);
+  themes.components = componentStyleOverrides(themeOption);
 
   return themes;
 };
