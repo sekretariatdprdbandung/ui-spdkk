@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -13,14 +14,22 @@ export default function AdminLayout() {
 
   return (
     <Grid container>
-      <Grid item xs={3} sm={4} md={3}>
+      <Grid item sm={3} md={3} lg={2.2}>
         <Sidebar />
       </Grid>
       {/* content */}
-      <Grid item xs={9} sm={8} md={9}>
-        <Box sx={{ height: '100vh', backgroundColor: theme.palette.text.paper, p: 3, boxSizing: 'border-box' }}>
-          <Outlet />
-        </Box>
+      <Grid item sm={9} md={9} lg={9.8}>
+        <PerfectScrollbar
+          style={{
+            height: '100vh',
+            paddingLeft: '8px',
+            paddingRight: '10px',
+          }}
+        >
+          <Box sx={{ heigth: '100vh', backgroundColor: theme.palette.text.paper, p: 3, boxSizing: 'border-box' }}>
+            <Outlet />
+          </Box>
+        </PerfectScrollbar>
       </Grid>
     </Grid>
   );

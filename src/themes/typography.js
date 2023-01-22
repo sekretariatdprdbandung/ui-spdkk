@@ -5,7 +5,7 @@
 
 export default function themeTypography(theme) {
   return {
-    fontFamily: 'Roboto',
+    fontFamily: 'Poppins',
     htmlFontSize: 10,
     h6: {
       fontWeight: 500,
@@ -33,7 +33,7 @@ export default function themeTypography(theme) {
       fontWeight: 700,
     },
     h1: {
-      fontSize: '3rem',
+      fontSize: '5rem',
       color: theme.heading,
       fontWeight: 700,
     },
@@ -44,7 +44,8 @@ export default function themeTypography(theme) {
     },
     menu: {
       fontWeight: 500,
-      fontSize: '1rem',
+      fontSize: '1.2rem',
+      color: theme.paper,
     },
     subtitle1: {
       fontSize: '1.4rem',
@@ -92,7 +93,7 @@ export default function themeTypography(theme) {
       letterSpacing: '0em',
       fontWeight: 400,
       lineHeight: '1.5em',
-      color: 'theme.darkTextPrimary',
+      color: theme.darkTextPrimary,
     },
     body3: {
       fontSize: '1.15rem',

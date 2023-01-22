@@ -20,7 +20,7 @@ export const theme = () => {
     colors: color,
     heading: color.primaryMain,
     paper: color.paper,
-    backgroundDefault: color.background,
+    backgroundDefault: color.paper,
     background: color.primaryLight,
     mainTextPrimary: color.primaryMain,
     darkTextPrimary: color.darkTextPrimary,

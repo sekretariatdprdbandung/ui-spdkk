@@ -113,7 +113,7 @@ export default function componentStyleOverrides(theme) {
             },
             '&>.MuiDataGrid-columnHeaders': {
               borderBottom: 'none',
-              backgroundColor: theme.colors.secondaryMain,
+              backgroundColor: theme.colors.primaryMain,
               color: '#fff',
             },
 
@@ -144,10 +144,7 @@ export default function componentStyleOverrides(theme) {
             backgroundColor: theme.menuSelectedBack,
             '&:hover': {
               backgroundColor: theme.menuSelectedBack,
-              color: theme.menuSelected,
-            },
-            '& .MuiListItemIcon-root': {
-              color: theme.menuSelected,
+              color: theme.darkTextPrimary,
             },
             '& .MuiListItemIcon-root': {
               color: theme.menuSelected,
@@ -157,9 +154,6 @@ export default function componentStyleOverrides(theme) {
             backgroundColor: theme.menuSelectedBack,
             color: theme.menuSelected,
             '& .MuiListItemIcon-root': {
-              color: theme.menuSelected,
-            },
-            '& .MuiListItemText-root': {
               color: theme.menuSelected,
             },
           },

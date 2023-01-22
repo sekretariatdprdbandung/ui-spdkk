@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { List, ListItemButton, ListItemIcon, ListItemText, Stack, Box, Avatar, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 // alert
 import Swal from 'sweetalert2';
@@ -14,80 +13,99 @@ import Logo from 'assets/images/logo_dprd.png';
 
 // project imports
 import AdminMenu from 'menu-items/AdminMenu';
+import SuperAdminMenu from 'menu-items/SuperAdminMenu';
+import SvgIcons from 'assets/images/menu';
 
 export default function Sidebar() {
   const theme = useTheme();
   let navigate = useNavigate();
 
   return (
-    <Box sx={{ height: '100vh', backgroundColor: theme.palette.primary.main }}>
-      <Stack p={2} spacing={2}>
-        <Stack spacing={2} justifyContent="center" alignItems="center">
-          <Avatar alt="Remy Sharp" src={Logo} sx={{ width: { lg: '6rem' }, height: 'auto', cursor: 'pointer' }} onClick={() => navigate('/')} />
-          <Stack justifyContent="center" alignItems="center">
-            <Typography variant="h5" sx={{ fontSize: '1.5rem', fontWeight: '400', color: theme.palette.text.paper, textTransform: 'uppercase' }}>
-              Teresa
-            </Typography>
-            <Typography variant="h6" sx={{ fontSize: '1rem', fontWeight: '400', color: theme.palette.text.paper, textTransform: 'uppercase' }}>
-              Admin
-            </Typography>
+    <Box component="nav" sx={{ backgroundColor: theme.palette.primary.main, position: 'relative', height: '100vh' }}>
+      <Stack p={2} spacing={2} sx={{ height: '100%' }}>
+        <Stack spacing={8} justifyContent="center" alignItems="center" sx={{ height: '100%' }}>
+          <Stack spacing={3} mt={3}>
+            <Avatar
+              alt="Remy Sharp"
+              src={Logo}
+              sx={{ width: { md: '8rem', lg: '10rem' }, height: 'auto', cursor: 'pointer' }}
+              onClick={() => navigate('/')}
+            />
+            <Stack justifyContent="center" alignItems="center" spacing={1}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontSize: { sm: '1.4rem', md: '1.5rem', lg: '1.6rem' },
+                  fontWeight: '600',
+                  color: theme.palette.text.paper,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Teresa
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: { sm: '1.1rem', md: '1.2rem', lg: '1.3rem' },
+                  fontWeight: '400',
+                  color: theme.palette.text.paper,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Admin
+              </Typography>
+            </Stack>
           </Stack>
           {/* menu  */}
-          <Box sx={{ width: '100%' }}>
-            <List sx={{ width: '100%' }}>
-              {AdminMenu.map((item) => (
-                <ListItemButton
-                  onClick={() => {
-                    navigate(item.url);
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      color: theme.palette.text.paper,
-                      px: 1,
+          <Box sx={{ width: '100%', height: '100%' }} display="flex" flexDirection="column" justifyContent="space-between">
+            <Box sx={{ width: '100%' }}>
+              <List sx={{ width: '100%' }}>
+                {SuperAdminMenu.map((item, key) => (
+                  <ListItemButton
+                    key={key}
+                    onClick={() => {
+                      navigate(item.url);
                     }}
                   >
-                    <item.icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography variant="menu" pl={2}>
-                        {item.title}
-                      </Typography>
+                    <ListItemIcon sx={{ my: 'auto', minWidth: 36 }}>{item.icon({ size: 28, color: 'inherit' })}</ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography variant={'menu'} color="inherit" pl={{ sm: 1, lg: 2 }}>
+                          {item.title}
+                        </Typography>
+                      }
+                    />
+                  </ListItemButton>
+                ))}
+              </List>
+            </Box>
+            {/* logout */}
+            <Box sx={{ width: '100%' }}>
+              <ListItemButton
+                onClick={() =>
+                  Swal.fire({
+                    title: 'Do you want to save the changes?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                      Swal.fire('Saved!', '', 'success');
                     }
-                  />
-                </ListItemButton>
-              ))}
-            </List>
-          </Box>
-          {/* logout */}
-          <Box sx={{ width: '100%' }}>
-            <ListItemButton
-              onClick={() =>
-                Swal.fire({
-                  title: 'Do you want to save the changes?',
-                  showCancelButton: true,
-                  confirmButtonText: 'Yes',
-                  cancelButtonText: 'No',
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    Swal.fire('Saved!', '', 'success');
-                  }
-                })
-              }
-            >
-              <ListItemIcon sx={{ color: theme.palette.text.paper, p: 0 }}>
-                <DeleteIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography variant="menu" pl={2}>
-                    Logout
-                  </Typography>
+                  })
                 }
-              />
-            </ListItemButton>
+              >
+                <ListItemIcon sx={{ my: 'auto', minWidth: 36 }}>{SvgIcons.LogoutSVG({ size: 28, color: 'inherit' })}</ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Typography variant={'menu'} color="inherit" pl={{ sm: 1, lg: 2 }}>
+                      Logout
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            </Box>
           </Box>
         </Stack>
       </Stack>
