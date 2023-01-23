@@ -12,16 +12,18 @@ import Swal from 'sweetalert2';
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // project imports
 import CardCount from 'ui-component/Card/CardCount';
+import Detail from 'ui-component/extended/Detail';
 import Modal from 'ui-component/extended/Modal';
-import FormAdmin from './FormAdmin';
+import Form from './form';
 
 // API
 import { API } from 'config/API';
 
-export default function Dashboard() {
+export default function UserManagement() {
   const theme = useTheme();
   let navigate = useNavigate();
 
@@ -29,27 +31,19 @@ export default function Dashboard() {
   const [openDetail, setOpenDetail] = useState(false);
   const [selected, setSelected] = useState('');
 
-  // data
+  // delete data
   const [openAlert, setOpenAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [getData, setGetData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [length, setLength] = useState({
-    superAdmin: 0,
-    admin: 0,
-  });
 
-  const getUsers = async () => {
+  const getWorkVisit = async () => {
     try {
-      const responseUsers = await API.get('/user/get-users');
-      const responseRole = await API.get('/user/get-users-role');
+      setLoading(true);
+      const response = await API.get('/work-visit/get-work-visits');
 
-      if (responseUsers.data.status === 'Success' && responseRole.data.status === 'Success') {
-        setLength({
-          superAdmin: responseRole.data.data.superAdmin,
-          admin: responseRole.data.data.admin,
-        });
-        setData(responseUsers.data.data);
+      if (response.data.status === 'Success') {
+        setData(response.data.data);
         setLoading(false);
       }
     } catch (error) {
@@ -58,8 +52,14 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    getUsers();
+    getWorkVisit();
   }, []);
+
+  // modal
+  const [openModal, setOpenModal] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
+  const [modalTitle, setModalTitle] = useState('');
+  const [mode, setMode] = useState('add');
 
   const handleOpen = () => {
     setOpenAlert(true);
@@ -75,7 +75,7 @@ export default function Dashboard() {
     Swal.fire({
       icon: 'question',
       title: 'Konfirmasi',
-      text: 'Anda yakin ingin menghapus user tersebut?',
+      text: 'Anda yakin ingin menghapus data tersebut?',
       showDenyButton: true,
       confirmButtonText: 'Iya',
       denyButtonText: `Batal`,
@@ -89,6 +89,7 @@ export default function Dashboard() {
   };
   const handleDelete = async (id) => {
     try {
+      setLoading(true);
       // config
       const config = {
         method: 'DELETE',
@@ -98,20 +99,21 @@ export default function Dashboard() {
       };
 
       // API delete
-      const response = await API.delete(`/user/delete-user/${id}`, config);
+      const response = await API.delete(`/work-visit/delete-work-visit/${id}`, config);
 
       // response
       if (response.data.status === 'Success') {
+        setLoading(false);
         Swal.fire({
           title: 'Berhasil',
-          text: response.data.message,
+          text: 'Data Kunjungan Kerja Berhasil Dihapus',
           icon: 'success',
           confirmButtonText: 'Oke',
         });
-        setLoading(true);
-        getUsers();
+        getWorkVisit();
       }
     } catch (error) {
+      setLoading(false);
       Swal.fire({
         title: 'Gagal',
         text: error.response.data.message,
@@ -121,12 +123,6 @@ export default function Dashboard() {
       console.log(error);
     }
   };
-
-  // modal
-  const [openModal, setOpenModal] = useState(false);
-  const [dataEdit, setDataEdit] = useState({});
-  const [modalTitle, setModalTitle] = useState('');
-  const [mode, setMode] = useState('add');
 
   // Data Table
   const columns = [
@@ -141,7 +137,7 @@ export default function Dashboard() {
     },
     {
       field: 'name',
-      headerName: 'Nama',
+      headerName: 'Nama Pengunjung',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
       align: 'center',
@@ -149,43 +145,13 @@ export default function Dashboard() {
       renderCell: (params) => params.row.name || '-',
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: 'date',
+      headerName: 'Tanggal Kunjungan',
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
       flex: 1,
       align: 'center',
-      renderCell: (params) => params.row.email || '-',
-    },
-    {
-      field: 'role',
-      headerName: 'Role',
-      headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      flex: 1,
-      align: 'center',
-      renderCell: (params) => {
-        if (params.row.role === 0) {
-          return 'Super Admin';
-        } else {
-          return 'Admin';
-        }
-      },
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      flex: 1,
-      align: 'center',
-      renderCell: (params) => {
-        if (params.row.status === 0) {
-          return 'Aktif';
-        } else {
-          return 'Tidak Aktif';
-        }
-      },
+      renderCell: (params) => params.row.date || '-',
     },
     {
       field: 'aksi',
@@ -199,6 +165,33 @@ export default function Dashboard() {
       renderCell: (params) => {
         return (
           <Stack direction="row" spacing={1} alignItems="center">
+            {/* lihat btn */}
+            <Tooltip
+              title="Lihat Data"
+              sx={{
+                fontSize: '22px',
+                cursor: 'pointer',
+                color: theme.palette.primary.main,
+              }}
+            >
+              <IconButton
+                onClick={() => {
+                  setSelected(params.row);
+                  setOpenDetail(true);
+                }}
+              >
+                <VisibilityIcon
+                  sx={{
+                    fontSize: '22px',
+                    cursor: 'pointer',
+                    color: theme.palette.primary.main,
+                    '&:hover': {
+                      color: '#2c2c2c',
+                    },
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
             {/* edit btn */}
             <Tooltip
               title="Ubah Data"
@@ -211,7 +204,7 @@ export default function Dashboard() {
               <IconButton
                 onClick={() => {
                   setOpenModal(true);
-                  setModalTitle('Ubah Data Admin');
+                  setModalTitle('Ubah Data Kunjungan Kerja');
                   setMode('edit');
                   setDataEdit(params.row);
                 }}
@@ -230,7 +223,7 @@ export default function Dashboard() {
             </Tooltip>
             {/* hapus btn */}
             <Tooltip
-              title="Hapus Data"
+              title="Lihat Data"
               sx={{
                 fontSize: '22px',
                 cursor: 'pointer',
@@ -275,20 +268,18 @@ export default function Dashboard() {
           ) : (
             <Stack>
               <Box>
-                <Typography variant="h3">User Management</Typography>
+                <Typography variant="h3">Kunjungan Kerja</Typography>
               </Box>
               <Box display="flex" alignContent="center" justifyContent="center" gap={2} pt={5}>
                 {/* card */}
-                <CardCount count={length?.superAdmin} title="Super Admin" />
-                {/* card */}
-                <CardCount count={length?.admin} title="Admin" />
+                <CardCount count={data?.length} title="Super Admin" />
               </Box>
 
               {/* content  */}
               <Stack mt={5}>
                 {/* header */}
                 <Box display="flex" flexDirection="row" justifyContent="space-between" alignContent="center">
-                  <Typography variant="h3">User</Typography>
+                  <Typography variant="h3"></Typography>
                   <Button
                     variant="outlined"
                     size="small"
@@ -296,7 +287,7 @@ export default function Dashboard() {
                     onClick={() => {
                       setOpenModal(true);
                       setMode('add');
-                      setModalTitle('Tambah Admin Baru');
+                      setModalTitle('Tambah Kunjugan Baru');
                     }}
                   >
                     Tambah Data
@@ -305,7 +296,7 @@ export default function Dashboard() {
                 {/* content */}
                 {/* data */}
                 <Box mt={4}>
-                  <DataGrid rows={data} columns={columns} pageSize={6} rowsPerPageOptions={[6]} autoHeight />
+                  <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight />
                 </Box>
               </Stack>
             </Stack>
@@ -321,16 +312,18 @@ export default function Dashboard() {
         }}
         title={modalTitle}
       >
-        <FormAdmin
+        <Form
           onClose={() => {
             setOpenModal(false);
             setLoading(true);
-            getUsers();
+            getWorkVisit();
           }}
           dataEdit={dataEdit}
           mode={mode}
         />
       </Modal>
+
+      <Detail selected={selected} openDetail={openDetail} setOpenDetail={setOpenDetail} />
     </>
   );
 }

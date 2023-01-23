@@ -13,17 +13,17 @@ const LoginPage = Loadable(lazy(() => import('views/auth/Login')));
 
 // admin
 const HomePage = Loadable(lazy(() => import('views/pages/Home')));
-const DashboardPage = Loadable(lazy(() => import('views/pages/dashboard')));
+const WorkVisitPage = Loadable(lazy(() => import('views/pages/work-visit')));
 
 const UserManagementPage = Loadable(lazy(() => import('views/pages/user-management')));
-const UserManagementAddForm = Loadable(lazy(() => import('views/pages/user-management/FormAdmin')));
+const UserManagementAddForm = Loadable(lazy(() => import('views/pages/user-management/form')));
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<AdminLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/work-visit" element={<WorkVisitPage />} />
         <Route path="/user-management" element={<UserManagementPage />} />
         <Route path="/user-management-add-form" element={<UserManagementAddForm />} />
       </Route>

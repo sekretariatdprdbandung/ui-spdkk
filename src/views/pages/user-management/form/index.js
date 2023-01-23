@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 // API
 import { API } from 'config/API';
 
-const FormAdmin = ({ onClose, mode, dataEdit }) => {
+const Form = ({ onClose, mode, dataEdit }) => {
   const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +58,7 @@ const FormAdmin = ({ onClose, mode, dataEdit }) => {
   const handleSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       // config
       const config = {
         headers: {
@@ -77,9 +78,10 @@ const FormAdmin = ({ onClose, mode, dataEdit }) => {
       }
 
       if (response.data.status === 'Success') {
+        setLoading(false);
         Swal.fire({
           title: 'Berhasil',
-          text: response.data.message,
+          text: 'Data Pengguna Berhasil Disimpan',
           icon: 'success',
           confirmButtonText: 'Oke',
         }).then((result) => {
@@ -88,6 +90,7 @@ const FormAdmin = ({ onClose, mode, dataEdit }) => {
           }
         });
       } else {
+        setLoading(false);
         Swal.fire({
           title: 'Gagal',
           text: response.data.message,
@@ -96,6 +99,7 @@ const FormAdmin = ({ onClose, mode, dataEdit }) => {
         });
       }
     } catch (error) {
+      setLoading(false);
       Swal.fire({
         title: 'Gagal',
         text: error.response.data.message,
@@ -182,4 +186,4 @@ const FormAdmin = ({ onClose, mode, dataEdit }) => {
   );
 };
 
-export default FormAdmin;
+export default Form;

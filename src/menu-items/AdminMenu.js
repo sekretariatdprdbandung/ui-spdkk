@@ -2,10 +2,10 @@ import SvgIcons from 'assets/images/menu';
 
 const AdminMenu = [
   {
-    id: 'home',
-    title: 'Dashboard',
+    id: 'kunjungan-kerja',
+    title: 'Kunjungan Kerja',
     type: 'item',
-    url: '/dashboard',
+    url: '/work-visit',
     icon: SvgIcons.DashboardSVG,
     breadcrumbs: false,
   },

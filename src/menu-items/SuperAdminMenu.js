@@ -2,16 +2,16 @@ import SvgIcons from 'assets/images/menu';
 
 const SuperAdminMenu = [
   {
-    id: 'dashboard',
-    title: 'Dashboard',
+    id: 'kunjungan-kerja',
+    title: 'Kunjungan Kerja',
     type: 'item',
-    url: '/dashboard',
+    url: '/work-visit',
     icon: SvgIcons.DashboardSVG,
     breadcrumbs: false,
   },
   {
-    id: 'user-management',
-    title: 'User Management',
+    id: 'manajemen-pengguna',
+    title: 'Manajemen Pengguna',
     type: 'item',
     url: '/user-management',
     icon: SvgIcons.UsersSVG,
