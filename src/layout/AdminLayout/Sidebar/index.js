@@ -84,10 +84,12 @@ export default function Sidebar() {
               <ListItemButton
                 onClick={() =>
                   Swal.fire({
-                    title: 'Do you want to save the changes?',
+                    icon: 'question',
+                    title: 'Konfirmasi',
+                    text: 'Anda yakin ingin keluar?',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'No',
+                    confirmButtonText: 'Iya',
+                    cancelButtonText: 'Tidak',
                   }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
@@ -100,7 +102,7 @@ export default function Sidebar() {
                 <ListItemText
                   primary={
                     <Typography variant={'menu'} color="inherit" pl={{ sm: 1, lg: 2 }}>
-                      Logout
+                      Keluar
                     </Typography>
                   }
                 />

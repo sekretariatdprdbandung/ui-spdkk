@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 // project imports
 import CardCount from 'ui-component/Card/CardCount';
 import Modal from 'ui-component/extended/Modal';
-import FormAdmin from './FormAdmin';
+import Form from './form';
 
 // API
 import { API } from 'config/API';
@@ -211,7 +211,7 @@ export default function UserManagement() {
               <IconButton
                 onClick={() => {
                   setOpenModal(true);
-                  setModalTitle('Ubah Data Admin');
+                  setModalTitle('Ubah Data Pengguna');
                   setMode('edit');
                   setDataEdit(params.row);
                 }}
@@ -228,32 +228,35 @@ export default function UserManagement() {
                 />
               </IconButton>
             </Tooltip>
+
             {/* hapus btn */}
-            <Tooltip
-              title="Hapus Data"
-              sx={{
-                fontSize: '22px',
-                cursor: 'pointer',
-                color: theme.palette.primary.main,
-              }}
-            >
-              <IconButton
-                onClick={() => {
-                  deleteData(params.row);
+            {params.row.role !== 0 && (
+              <Tooltip
+                title="Hapus Data"
+                sx={{
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                  color: theme.palette.primary.main,
                 }}
               >
-                <DeleteIcon
-                  sx={{
-                    fontSize: '22px',
-                    cursor: 'pointer',
-                    color: theme.palette.primary.main,
-                    '&:hover': {
-                      color: '#2c2c2c',
-                    },
+                <IconButton
+                  onClick={() => {
+                    deleteData(params.row);
                   }}
-                />
-              </IconButton>
-            </Tooltip>
+                >
+                  <DeleteIcon
+                    sx={{
+                      fontSize: '22px',
+                      cursor: 'pointer',
+                      color: theme.palette.primary.main,
+                      '&:hover': {
+                        color: '#2c2c2c',
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
         );
       },
@@ -275,7 +278,7 @@ export default function UserManagement() {
           ) : (
             <Stack>
               <Box>
-                <Typography variant="h3">User Management</Typography>
+                <Typography variant="h3">Managemen Pengguna</Typography>
               </Box>
               <Box display="flex" alignContent="center" justifyContent="center" gap={2} pt={5}>
                 {/* card */}
@@ -288,7 +291,7 @@ export default function UserManagement() {
               <Stack mt={5}>
                 {/* header */}
                 <Box display="flex" flexDirection="row" justifyContent="space-between" alignContent="center">
-                  <Typography variant="h3">User</Typography>
+                  <Typography variant="h3"></Typography>
                   <Button
                     variant="outlined"
                     size="small"
@@ -296,7 +299,7 @@ export default function UserManagement() {
                     onClick={() => {
                       setOpenModal(true);
                       setMode('add');
-                      setModalTitle('Tambah Admin Baru');
+                      setModalTitle('Tambah Pengguna Baru');
                     }}
                   >
                     Tambah Data
@@ -305,7 +308,7 @@ export default function UserManagement() {
                 {/* content */}
                 {/* data */}
                 <Box mt={4}>
-                  <DataGrid rows={data} columns={columns} pageSize={6} rowsPerPageOptions={[6]} autoHeight />
+                  <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight />
                 </Box>
               </Stack>
             </Stack>
@@ -321,7 +324,7 @@ export default function UserManagement() {
         }}
         title={modalTitle}
       >
-        <FormAdmin
+        <Form
           onClose={() => {
             setOpenModal(false);
             setLoading(true);
