@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/system';
@@ -25,16 +23,13 @@ import { API } from 'config/API';
 
 export default function UserManagement() {
   const theme = useTheme();
-  let navigate = useNavigate();
 
   // open data
   const [openDetail, setOpenDetail] = useState(false);
   const [selected, setSelected] = useState('');
 
   // delete data
-  const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [getData, setGetData] = useState([]);
   const [data, setData] = useState([]);
 
   const getWorkVisit = async () => {
@@ -61,15 +56,6 @@ export default function UserManagement() {
   const [modalTitle, setModalTitle] = useState('');
   const [mode, setMode] = useState('add');
 
-  const handleOpen = () => {
-    setOpenAlert(true);
-  };
-
-  const handleClose = () => {
-    setOpenAlert(false);
-    setGetData('');
-  };
-
   // delete data
   const deleteData = ({ id }) => {
     Swal.fire({
@@ -81,9 +67,7 @@ export default function UserManagement() {
       denyButtonText: `Batal`,
     }).then((result) => {
       if (result.isConfirmed) {
-        {
-          handleDelete(id);
-        }
+        handleDelete(id);
       }
     });
   };
@@ -270,9 +254,9 @@ export default function UserManagement() {
               <Box>
                 <Typography variant="h3">Kunjungan Kerja</Typography>
               </Box>
-              <Box display="flex" alignContent="center" justifyContent="center" gap={2} pt={5}>
+              <Box display="flex" alignContent="center" justifyContent="center" pt={5}>
                 {/* card */}
-                <CardCount count={data?.length} title="Super Admin" />
+                <CardCount count={data?.length} title="Kunjungan" />
               </Box>
 
               {/* content  */}

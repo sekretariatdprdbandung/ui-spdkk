@@ -1,12 +1,21 @@
 // react
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
+import { useMutation } from 'react-query';
+import { NotificationManager } from 'react-notifications';
+
+// API
+import { API } from 'config/API';
+
+// context
+import { AuthContext } from 'context/AuthContext';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Grid, Typography, Stack, Button, FormControl, OutlinedInput, TextField, InputAdornment, IconButton, InputLabel } from '@mui/material';
+import { Box, Grid, Typography, Stack, Alert, FormControl, OutlinedInput, InputAdornment, IconButton, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login';
 
 // assets
 import Image1 from 'assets/images/kantor_dprd_bandung.jpg';
@@ -18,6 +27,9 @@ import AnimateButton from 'ui-component/button/AnimateButton';
 export default function Login() {
   const theme = useTheme();
 
+  // context
+  const [dispatch] = useContext(AuthContext);
+
   // show password
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -25,6 +37,7 @@ export default function Login() {
   };
 
   // login
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     email: '',
@@ -37,6 +50,71 @@ export default function Login() {
       [e.target.name]: e.target.value,
     });
   };
+
+  // handle submit
+  const handleSubmit = useMutation(async (e) => {
+    e.preventDefault();
+    if (form.email === '' || form.password === '') {
+      setLoading(false);
+      const alert = (
+        <Alert variant="filled" severity="error" sx={{ alignContent: 'center', justifyContent: 'center' }}>
+          Silahkan masukkan Email dan Password yang benar
+        </Alert>
+      );
+      setMessage(alert);
+    } else {
+      try {
+        // config
+        const config = {
+          headers: {
+            'content-type': 'application/json',
+          },
+        };
+
+        // data
+        const body = JSON.stringify(form);
+
+        // API login
+        const response = await API.post('/auth/login', body, config);
+
+        if (response.data.status === 'Success') {
+          setLoading(false);
+
+          // send data to auth context
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: response.data.data,
+          });
+
+          // notif
+          NotificationManager.success('Login Berhasil', 'Sukses', 5000);
+
+          // set form
+          setForm({
+            email: '',
+            password: '',
+          });
+        } else {
+          setLoading(false);
+          const alert = (
+            <Alert variant="filled" severity="error" sx={{ alignContent: 'center', justifyContent: 'center' }}>
+              {response.data.message}
+            </Alert>
+          );
+          setMessage(alert);
+        }
+      } catch (error) {
+        setLoading(false);
+        const alert = (
+          <Alert variant="filled" severity="error" sx={{ alignContent: 'center', justifyContent: 'center' }}>
+            Server Error
+          </Alert>
+        );
+        setMessage(alert);
+        console.log(error);
+      }
+    }
+  });
 
   return (
     <Grid container>
@@ -90,61 +168,73 @@ export default function Login() {
                 </Grid>
               </Grid>
               <Grid item xs={12} mt={{ lg: 2 }}>
-                <form noValidate>
-                  <Stack spacing={2}>
-                    <FormControl fullWidth>
-                      {/* email */}
-                      <InputLabel htmlFor="outlined-adornment-email-login">Email</InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-email-login"
-                        value={form.email}
-                        defaultValue={form.email}
-                        onChange={handleChange}
-                        type="email"
-                        name="email"
-                        label="Email"
-                        inputProps={{}}
-                      />
-                    </FormControl>
+                <Stack spacing={4}>
+                  {/* alert */}
+                  {message}
+                  <form noValidate onSubmit={(e) => handleSubmit.mutate(e)}>
+                    <Stack spacing={2}>
+                      <FormControl fullWidth>
+                        {/* email */}
+                        <InputLabel htmlFor="email">Email</InputLabel>
+                        <OutlinedInput
+                          id="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          name="email"
+                          label="Email"
+                          type="email"
+                          inputProps={{}}
+                          required
+                          autoComplete="off"
+                        />
+                      </FormControl>
 
-                    <FormControl fullWidth>
-                      {/* password */}
-                      <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password-login"
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        value={form.password}
-                        defaultValue={form.password}
-                        onChange={handleChange}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end" size="large">
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Password"
-                        inputProps={{}}
-                      />
-                    </FormControl>
-                  </Stack>
+                      <FormControl fullWidth>
+                        {/* password */}
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <OutlinedInput
+                          id="password"
+                          type={showPassword ? 'text' : 'password'}
+                          name="password"
+                          value={form.password}
+                          onChange={handleChange}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end" size="large">
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Password"
+                          inputProps={{}}
+                        />
+                      </FormControl>
+                    </Stack>
 
-                  <Box sx={{ mt: 4 }}>
-                    <AnimateButton>
-                      <LoadingButton
-                        disableElevation
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                        sx={{ fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1rem', backgroundColor: theme.palette.primary.dark }}
-                      >
-                        Login
-                      </LoadingButton>
-                    </AnimateButton>
-                  </Box>
-                </form>
+                    <Box sx={{ mt: 4 }}>
+                      <AnimateButton>
+                        <LoadingButton
+                          disableElevation
+                          fullWidth
+                          loading={loading}
+                          loadingPosition="end"
+                          endIcon={<LoginIcon />}
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                          sx={{
+                            fontWeight: '700',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.1rem',
+                            backgroundColor: theme.palette.primary.main,
+                          }}
+                        >
+                          Login
+                        </LoadingButton>
+                      </AnimateButton>
+                    </Box>
+                  </form>
+                </Stack>
               </Grid>
             </Grid>
           </Grid>

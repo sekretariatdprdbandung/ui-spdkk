@@ -1,5 +1,8 @@
-import React from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// context
+import { AuthContext } from 'context/AuthContext';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -19,6 +22,23 @@ import SvgIcons from 'assets/images/menu';
 export default function Sidebar() {
   const theme = useTheme();
   let navigate = useNavigate();
+
+  // context
+  const [state, dispatch] = useContext(AuthContext);
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    if (state.user.role === 0) {
+      setMenu(SuperAdminMenu);
+    } else {
+      setMenu(AdminMenu);
+    }
+  }, []);
+
+  // handle logout
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+  };
 
   return (
     <Box component="nav" sx={{ backgroundColor: theme.palette.primary.main, position: 'relative', height: '100vh' }}>
@@ -41,7 +61,7 @@ export default function Sidebar() {
                   textTransform: 'uppercase',
                 }}
               >
-                Teresa
+                {state?.user.name}
               </Typography>
               <Typography
                 variant="h6"
@@ -52,7 +72,7 @@ export default function Sidebar() {
                   textTransform: 'uppercase',
                 }}
               >
-                Admin
+                {state?.user.role === 0 ? 'Super Admin' : 'Admin'}
               </Typography>
             </Stack>
           </Stack>
@@ -60,7 +80,7 @@ export default function Sidebar() {
           <Box sx={{ width: '100%', height: '100%' }} display="flex" flexDirection="column" justifyContent="space-between">
             <Box sx={{ width: '100%' }}>
               <List sx={{ width: '100%' }}>
-                {SuperAdminMenu.map((item, key) => (
+                {menu.map((item, key) => (
                   <ListItemButton
                     key={key}
                     onClick={() => {
@@ -93,7 +113,7 @@ export default function Sidebar() {
                   }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                      Swal.fire('Saved!', '', 'success');
+                      handleLogout();
                     }
                   })
                 }
