@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-import { Grid, Stack, Typography, Button, Link } from '@mui/material';
+import { Grid, Stack, Typography, Link } from '@mui/material';
 import { useTheme } from '@mui/system';
 
 // project imports
@@ -8,11 +6,6 @@ import Modal from './Modal';
 
 function Detail({ openDetail, setOpenDetail, selected }) {
   const theme = useTheme();
-
-  const [openFile, setOpenFile] = useState(false);
-  const [selectedFile, setSelectedFile] = useState('');
-
-  console.log(selected);
 
   return (
     <>
@@ -93,7 +86,11 @@ function Detail({ openDetail, setOpenDetail, selected }) {
               :
             </Grid>
             <Grid item xs={9.2}>
-              <Typography variant="title2">{selected.filename}</Typography>
+              <Typography variant="title2">
+                {selected.file !== null && selected.file !== 'https://res.cloudinary.com/secretariat-dprd-bandung/image/upload/v1674474368/null'
+                  ? selected.filename
+                  : 'Tidak ada file yang terlampir'}
+              </Typography>
             </Grid>
           </Grid>
           {/* file */}
@@ -105,7 +102,7 @@ function Detail({ openDetail, setOpenDetail, selected }) {
               :
             </Grid>
             <Grid item xs={9.2}>
-              {selected.file !== null ? (
+              {selected.file !== null && selected.file !== 'https://res.cloudinary.com/secretariat-dprd-bandung/image/upload/v1674474368/null' ? (
                 <Link
                   size="small"
                   variant="title"

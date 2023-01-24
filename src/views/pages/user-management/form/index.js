@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
+
+// context
+import { AuthContext } from 'context/AuthContext';
 
 // mui material
 import { Backdrop, CircularProgress, IconButton, Button, InputAdornment, MenuItem, Stack, TextField } from '@mui/material';
@@ -15,6 +17,9 @@ import { API } from 'config/API';
 
 const Form = ({ onClose, mode, dataEdit }) => {
   const [loading, setLoading] = useState(false);
+
+  // context
+  const [state] = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -161,14 +166,34 @@ const Form = ({ onClose, mode, dataEdit }) => {
             }}
           />
           {/* role */}
-          <TextField id="role" name="role" placeholder="Tipe Admin" label="Tipe Admin *" value={form.role} onChange={handleChange} fullWidth select>
+          <TextField
+            id="role"
+            name="role"
+            placeholder="Tipe Admin"
+            label="Tipe Admin *"
+            value={form.role}
+            onChange={handleChange}
+            fullWidth
+            select
+            disabled={mode === 'edit' && state.user.id === 1 ? true : false}
+          >
             <MenuItem value={0} selected>
               Super Admin
             </MenuItem>
             <MenuItem value={1}>Admin</MenuItem>
           </TextField>
           {/* status */}
-          <TextField id="status" name="status" placeholder="Status" label="Status *" value={form.status} onChange={handleChange} fullWidth select>
+          <TextField
+            id="status"
+            name="status"
+            placeholder="Status"
+            label="Status *"
+            value={form.status}
+            onChange={handleChange}
+            fullWidth
+            select
+            disabled={mode === 'edit' && state.user.id === 1 ? true : false}
+          >
             <MenuItem value={0} selected>
               Aktif
             </MenuItem>

@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/system';
@@ -23,15 +21,8 @@ import { API } from 'config/API';
 
 export default function UserManagement() {
   const theme = useTheme();
-  let navigate = useNavigate();
-
-  // open data
-  const [openDetail, setOpenDetail] = useState(false);
-  const [selected, setSelected] = useState('');
 
   // data
-  const [openAlert, setOpenAlert] = useState(false);
-  const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [length, setLength] = useState({
@@ -61,15 +52,6 @@ export default function UserManagement() {
     getUsers();
   }, []);
 
-  const handleOpen = () => {
-    setOpenAlert(true);
-  };
-
-  const handleClose = () => {
-    setOpenAlert(false);
-    setGetData('');
-  };
-
   // delete data
   const deleteData = ({ id }) => {
     Swal.fire({
@@ -81,9 +63,7 @@ export default function UserManagement() {
       denyButtonText: `Batal`,
     }).then((result) => {
       if (result.isConfirmed) {
-        {
-          handleDelete(id);
-        }
+        handleDelete(id);
       }
     });
   };
@@ -208,38 +188,41 @@ export default function UserManagement() {
                 color: theme.palette.primary.main,
               }}
             >
-              <IconButton
-                onClick={() => {
-                  setOpenModal(true);
-                  setModalTitle('Ubah Data Pengguna');
-                  setMode('edit');
-                  setDataEdit(params.row);
-                }}
-              >
-                <EditIcon
-                  sx={{
-                    fontSize: '22px',
-                    cursor: 'pointer',
-                    color: theme.palette.primary.main,
-                    '&:hover': {
-                      color: '#2c2c2c',
-                    },
+              <span>
+                <IconButton
+                  onClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Ubah Data Pengguna');
+                    setMode('edit');
+                    setDataEdit(params.row);
                   }}
-                />
-              </IconButton>
+                >
+                  <EditIcon
+                    sx={{
+                      fontSize: '22px',
+                      cursor: 'pointer',
+                      color: theme.palette.primary.main,
+                      '&:hover': {
+                        color: '#2c2c2c',
+                      },
+                    }}
+                  />
+                </IconButton>
+              </span>
             </Tooltip>
 
             {/* hapus btn */}
-            {params.row.role !== 0 && (
-              <Tooltip
-                title="Hapus Data"
-                sx={{
-                  fontSize: '22px',
-                  cursor: 'pointer',
-                  color: theme.palette.primary.main,
-                }}
-              >
+            <Tooltip
+              title="Hapus Data"
+              sx={{
+                fontSize: '22px',
+                cursor: 'pointer',
+                color: theme.palette.primary.main,
+              }}
+            >
+              <span>
                 <IconButton
+                  disabled={params.row.role === 0 && params.row.id === 1 ? true : false}
                   onClick={() => {
                     deleteData(params.row);
                   }}
@@ -255,8 +238,8 @@ export default function UserManagement() {
                     }}
                   />
                 </IconButton>
-              </Tooltip>
-            )}
+              </span>
+            </Tooltip>
           </Stack>
         );
       },

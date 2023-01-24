@@ -1,24 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
 
 // mui material
 import { useTheme } from '@mui/system';
-import {
-  Backdrop,
-  CircularProgress,
-  FormControlLabel,
-  Box,
-  IconButton,
-  Button,
-  InputAdornment,
-  MenuItem,
-  Card,
-  Stack,
-  TextField,
-  Typography,
-  svg,
-} from '@mui/material';
+import { Backdrop, CircularProgress, FormControlLabel, Box, Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -34,15 +19,6 @@ import { API } from 'config/API';
 const Form = ({ onClose, mode, dataEdit }) => {
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
-
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   // data
   const [form, setForm] = useState({

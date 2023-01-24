@@ -1,10 +1,7 @@
 // material-ui
 import { Grid, Stack, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 export default function Home() {
-  const theme = useTheme();
-
   return (
     <Grid container sx={{ boxSizing: 'border-box' }}>
       <Grid item xs={12} sx={{ minHeight: '93vh' }}>

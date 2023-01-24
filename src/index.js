@@ -4,6 +4,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { NotificationContainer } from 'react-notifications';
+
+// context
+import { AuthContextProvider } from 'context/AuthContext';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
@@ -16,11 +20,12 @@ import themes from 'themes';
 
 import 'sweetalert2/src/sweetalert2.scss';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'react-notifications/lib/notifications.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const client = new QueryClient();
 root.render(
-  <React.StrictMode>
+  <AuthContextProvider>
     <QueryClientProvider client={client}>
       <BrowserRouter>
         <StyledEngineProvider injectFirst>
@@ -31,7 +36,8 @@ root.render(
         </StyledEngineProvider>
       </BrowserRouter>
     </QueryClientProvider>
-  </React.StrictMode>
+    <NotificationContainer />
+  </AuthContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -6,7 +6,7 @@ const SuperAdminMenu = [
     title: 'Kunjungan Kerja',
     type: 'item',
     url: '/work-visit',
-    icon: SvgIcons.DashboardSVG,
+    icon: SvgIcons.FileSVG,
     breadcrumbs: false,
   },
   {
