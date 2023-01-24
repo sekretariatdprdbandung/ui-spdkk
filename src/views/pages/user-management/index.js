@@ -125,7 +125,7 @@ export default function UserManagement() {
       headerClassName: 'super-app-theme--header',
       headerAlign: 'center',
       align: 'center',
-      flex: 2,
+      flex: 1,
       renderCell: (params) => params.row.name || '-',
     },
     {
@@ -183,7 +183,7 @@ export default function UserManagement() {
             <Tooltip
               title="Ubah Data"
               sx={{
-                fontSize: '22px',
+                fontSize: { sm: '2rem', md: '2.2rem' },
                 cursor: 'pointer',
                 color: theme.palette.primary.main,
               }}
@@ -199,7 +199,7 @@ export default function UserManagement() {
                 >
                   <EditIcon
                     sx={{
-                      fontSize: '22px',
+                      fontSize: { sm: '2rem', md: '2.2rem' },
                       cursor: 'pointer',
                       color: theme.palette.primary.main,
                       '&:hover': {
@@ -215,7 +215,7 @@ export default function UserManagement() {
             <Tooltip
               title="Hapus Data"
               sx={{
-                fontSize: '22px',
+                fontSize: { sm: '2rem', md: '2.2rem' },
                 cursor: 'pointer',
                 color: theme.palette.primary.main,
               }}
@@ -229,7 +229,7 @@ export default function UserManagement() {
                 >
                   <DeleteIcon
                     sx={{
-                      fontSize: '22px',
+                      fontSize: { sm: '2rem', md: '2.2rem' },
                       cursor: 'pointer',
                       color: theme.palette.primary.main,
                       '&:hover': {
@@ -261,7 +261,9 @@ export default function UserManagement() {
           ) : (
             <Stack>
               <Box>
-                <Typography variant="h3">Managemen Pengguna</Typography>
+                <Typography variant="h3" sx={{ fontSize: { sm: '1.8rem' } }}>
+                  Managemen Pengguna
+                </Typography>
               </Box>
               <Box display="flex" alignContent="center" justifyContent="center" gap={2} pt={5}>
                 {/* card */}
@@ -291,7 +293,14 @@ export default function UserManagement() {
                 {/* content */}
                 {/* data */}
                 <Box mt={4}>
-                  <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight />
+                  <DataGrid
+                    rows={data}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    autoHeight
+                    sx={{ fontSize: { sm: '1rem', md: '1rem' }, textAlign: 'center' }}
+                  />
                 </Box>
               </Stack>
             </Stack>

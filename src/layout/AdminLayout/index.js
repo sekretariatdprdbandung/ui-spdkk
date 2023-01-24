@@ -18,7 +18,7 @@ export default function AdminLayout() {
         <Sidebar />
       </Grid>
       {/* content */}
-      <Grid item sm={9} md={9} lg={9.8}>
+      <Grid item sm={9} md={9} lg={9.8} sx={{ backgroundColor: '#fff' }}>
         <PerfectScrollbar
           style={{
             height: '100vh',
@@ -26,7 +26,7 @@ export default function AdminLayout() {
             paddingRight: '10px',
           }}
         >
-          <Box sx={{ heigth: '100vh', backgroundColor: theme.palette.text.paper, p: 3, boxSizing: 'border-box' }}>
+          <Box sx={{ heigth: '100vh', p: 3, boxSizing: 'border-box' }}>
             <Outlet />
           </Box>
         </PerfectScrollbar>

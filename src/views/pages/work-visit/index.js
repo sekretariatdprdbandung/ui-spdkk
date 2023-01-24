@@ -29,7 +29,7 @@ export default function UserManagement() {
   const [selected, setSelected] = useState('');
 
   // delete data
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const getWorkVisit = async () => {
@@ -148,12 +148,12 @@ export default function UserManagement() {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" alignItems="center" justifyContent="center">
             {/* lihat btn */}
             <Tooltip
               title="Lihat Data"
               sx={{
-                fontSize: '22px',
+                fontSize: { sm: '2rem', md: '2.2rem' },
                 cursor: 'pointer',
                 color: theme.palette.primary.main,
               }}
@@ -166,7 +166,7 @@ export default function UserManagement() {
               >
                 <VisibilityIcon
                   sx={{
-                    fontSize: '22px',
+                    fontSize: { sm: '2rem', md: '2.2rem' },
                     cursor: 'pointer',
                     color: theme.palette.primary.main,
                     '&:hover': {
@@ -180,7 +180,7 @@ export default function UserManagement() {
             <Tooltip
               title="Ubah Data"
               sx={{
-                fontSize: '22px',
+                fontSize: { sm: '2rem', md: '2.2rem' },
                 cursor: 'pointer',
                 color: theme.palette.primary.main,
               }}
@@ -195,7 +195,7 @@ export default function UserManagement() {
               >
                 <EditIcon
                   sx={{
-                    fontSize: '22px',
+                    fontSize: { sm: '2rem', md: '2.2rem' },
                     cursor: 'pointer',
                     color: theme.palette.primary.main,
                     '&:hover': {
@@ -209,7 +209,7 @@ export default function UserManagement() {
             <Tooltip
               title="Lihat Data"
               sx={{
-                fontSize: '22px',
+                fontSize: { sm: '2rem', md: '2.2rem' },
                 cursor: 'pointer',
                 color: theme.palette.primary.main,
               }}
@@ -221,7 +221,7 @@ export default function UserManagement() {
               >
                 <DeleteIcon
                   sx={{
-                    fontSize: '22px',
+                    fontSize: { sm: '2rem', md: '2.2rem' },
                     cursor: 'pointer',
                     color: theme.palette.primary.main,
                     '&:hover': {
@@ -252,7 +252,9 @@ export default function UserManagement() {
           ) : (
             <Stack>
               <Box>
-                <Typography variant="h3">Kunjungan Kerja</Typography>
+                <Typography variant="h3" sx={{ fontSize: { sm: '1.8rem' } }}>
+                  Kunjungan Kerja
+                </Typography>
               </Box>
               <Box display="flex" alignContent="center" justifyContent="center" pt={5}>
                 {/* card */}
@@ -280,7 +282,14 @@ export default function UserManagement() {
                 {/* content */}
                 {/* data */}
                 <Box mt={4}>
-                  <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight />
+                  <DataGrid
+                    rows={data}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    autoHeight
+                    sx={{ fontSize: { sm: '1rem', md: '1.5rem' } }}
+                  />
                 </Box>
               </Stack>
             </Stack>

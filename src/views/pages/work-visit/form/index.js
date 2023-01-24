@@ -131,7 +131,7 @@ const Form = ({ onClose, mode, dataEdit }) => {
       )}
 
       <form onSubmit={(e) => handleSubmit.mutate(e)}>
-        <Stack spacing={2} sx={{ mt: 2 }}>
+        <Stack spacing={2} sx={{ mt: 1 }}>
           {/* nama pengunjung */}
           <TextField
             id="name"
@@ -186,7 +186,7 @@ const Form = ({ onClose, mode, dataEdit }) => {
             label={
               <Card sx={{ p: 2, background: theme.palette.primary.main, borderRadius: 3, cursor: 'pointer' }}>
                 <Stack flexDirection="row" alignItems="center" justifyContent="center" gap={3}>
-                  <Box component="img" src={UploadFile} sx={{ width: 68, height: 68 }} />
+                  <Box component="img" src={UploadFile} sx={{ width: { sm: 50, md: 45, lg: 55 }, height: { sm: 50, md: 45, lg: 55 } }} />
                   <Typography sx={{ color: '#fff' }}>{form.filename !== '' && form.filename !== null ? form.filename : 'Unggah File'}</Typography>
                 </Stack>
               </Card>

@@ -44,11 +44,11 @@ export default function Sidebar() {
     <Box component="nav" sx={{ backgroundColor: theme.palette.primary.main, position: 'relative', height: '100vh' }}>
       <Stack p={2} spacing={2} sx={{ height: '100%' }}>
         <Stack spacing={8} justifyContent="center" alignItems="center" sx={{ height: '100%' }}>
-          <Stack spacing={3} mt={3}>
+          <Stack spacing={3} mt={3} alignItems="center">
             <Avatar
-              alt="Remy Sharp"
+              alt={state?.user.name}
               src={Logo}
-              sx={{ width: { md: '8rem', lg: '10rem' }, height: 'auto', cursor: 'pointer' }}
+              sx={{ width: { md: '8rem', lg: '10rem' }, height: 'auto', cursor: 'pointer', backgroundColor: 'red' }}
               onClick={() => navigate('/')}
             />
             <Stack justifyContent="center" alignItems="center" spacing={1}>
@@ -87,10 +87,17 @@ export default function Sidebar() {
                       navigate(item.url);
                     }}
                   >
-                    <ListItemIcon sx={{ my: 'auto', minWidth: 36 }}>{item.icon({ size: 28, color: 'inherit' })}</ListItemIcon>
+                    <ListItemIcon sx={{ my: 'auto', minWidth: { sm: 20, md: 30 } }}>{item.icon({ size: 20, color: 'inherit' })}</ListItemIcon>
                     <ListItemText
                       primary={
-                        <Typography variant={'menu'} color="inherit" pl={{ sm: 1, lg: 2 }}>
+                        <Typography
+                          variant={'menu'}
+                          color="inherit"
+                          pl={{ sm: 1, lg: 2 }}
+                          sx={{
+                            fontSize: { sm: '0.8rem', md: '1.1rem', lg: '1.3rem' },
+                          }}
+                        >
                           {item.title}
                         </Typography>
                       }
@@ -118,10 +125,17 @@ export default function Sidebar() {
                   })
                 }
               >
-                <ListItemIcon sx={{ my: 'auto', minWidth: 36 }}>{SvgIcons.LogoutSVG({ size: 28, color: 'inherit' })}</ListItemIcon>
+                <ListItemIcon sx={{ my: 'auto', minWidth: { sm: 20, md: 30 } }}>{SvgIcons.LogoutSVG({ size: 20, color: 'inherit' })}</ListItemIcon>
                 <ListItemText
                   primary={
-                    <Typography variant={'menu'} color="inherit" pl={{ sm: 1, lg: 2 }}>
+                    <Typography
+                      variant={'menu'}
+                      color="inherit"
+                      pl={{ sm: 1, lg: 2 }}
+                      sx={{
+                        fontSize: { sm: '0.8rem', md: '1.1rem', lg: '1.3rem' },
+                      }}
+                    >
                       Keluar
                     </Typography>
                   }

@@ -28,7 +28,7 @@ export default function Login() {
   const theme = useTheme();
 
   // context
-  const [dispatch] = useContext(AuthContext);
+  const [state, dispatch] = useContext(AuthContext);
 
   // show password
   const [showPassword, setShowPassword] = useState(false);
