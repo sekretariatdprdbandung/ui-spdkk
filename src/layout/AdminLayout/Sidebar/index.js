@@ -48,7 +48,7 @@ export default function Sidebar() {
             <Avatar
               alt={state?.user.name}
               src={Logo}
-              sx={{ width: { md: '8rem', lg: '10rem' }, height: 'auto', cursor: 'pointer', backgroundColor: 'red' }}
+              sx={{ width: { md: '8rem', lg: '10rem' }, height: 'auto', cursor: 'pointer' }}
               onClick={() => navigate('/')}
             />
             <Stack justifyContent="center" alignItems="center" spacing={1}>
