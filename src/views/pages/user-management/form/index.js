@@ -1,8 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
-
-// context
-import { AuthContext } from 'context/AuthContext';
 
 // mui material
 import { Backdrop, CircularProgress, IconButton, Button, InputAdornment, MenuItem, Stack, TextField } from '@mui/material';
@@ -17,9 +14,6 @@ import { API } from 'config/API';
 
 const Form = ({ onClose, mode, dataEdit }) => {
   const [loading, setLoading] = useState(false);
-
-  // context
-  const [state] = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -175,7 +169,7 @@ const Form = ({ onClose, mode, dataEdit }) => {
             onChange={handleChange}
             fullWidth
             select
-            disabled={mode === 'edit' && state.user.id === 1 ? true : false}
+            disabled={mode === 'edit' && dataEdit.id === 1 ? true : false}
           >
             <MenuItem value={0} selected>
               Super Admin
@@ -192,7 +186,7 @@ const Form = ({ onClose, mode, dataEdit }) => {
             onChange={handleChange}
             fullWidth
             select
-            disabled={mode === 'edit' && state.user.id === 1 ? true : false}
+            disabled={mode === 'edit' && dataEdit.id === 1 ? true : false}
           >
             <MenuItem value={0} selected>
               Aktif

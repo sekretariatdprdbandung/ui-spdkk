@@ -299,7 +299,7 @@ export default function UserManagement() {
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                     autoHeight
-                    sx={{ fontSize: { sm: '1rem', md: '1rem' }, textAlign: 'center' }}
+                    sx={{ fontSize: { sm: '1rem', md: '1rem', lg: '1.3rem' }, textAlign: 'center' }}
                   />
                 </Box>
               </Stack>
